@@ -6,8 +6,8 @@ defaults:
   method: name
   task: dummy_disc
   seed: 0
-  script: train
-  batch_size: 16
+  script: train_eval
+  batch_size: 16 # 原本是16
   batch_length: 64
   report_length: 32
   consec_train: 1
@@ -20,10 +20,10 @@ defaults:
   errfile: False
 
   logger:
-    outputs: [jsonl, scope]
+    outputs: [jsonl, scope, wandb]
     filter: 'score|length|fps|ratio|train/loss/|train/rand/'
     timer: True
-    fps: 15
+    fps: 150 # 原本是15
     user: ''
 
   env:
@@ -46,13 +46,13 @@ defaults:
     chunksize: 1024
 
   run:
-    steps: 1e10
+    steps: 50e6 # 原本是1e10，改为50M
     duration: 0
     train_ratio: 32.0
     log_every: 120
     report_every: 300
     save_every: 900
-    envs: 16
+    envs: 96 # 原本是16
     eval_envs: 4
     eval_eps: 1
     report_batches: 1
@@ -70,7 +70,7 @@ defaults:
     debug: True
 
   jax:
-    platform: cuda
+    platform: tpu
     compute_dtype: bfloat16
     policy_devices: [0]
     train_devices: [0]
