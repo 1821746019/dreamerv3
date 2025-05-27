@@ -30,4 +30,9 @@ dependencies = [
   "portal>=3.5.0",
   "scope>=0.4.4",
   "tqdm",
+  "crafter",
+  "wandb[media]",
+  "tensorflow",# jax.profiler需要用到
+  "tensorboard",
+  "tensorboard-plugin-profile",
 ]
