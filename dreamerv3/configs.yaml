@@ -7,7 +7,7 @@ defaults:
   task: dummy_disc
   seed: 0
   script: train_eval
-  batch_size: 16 # 原本是16
+  batch_size: 64 # 原本是16
   batch_length: 64
   report_length: 32
   consec_train: 1
@@ -37,7 +37,7 @@ defaults:
     loconav: {size: [64, 64], repeat: 1, camera: -1}
 
   replay:
-    size: 5e6
+    size: 5e5 # 原本是5e6，80G存储空间不够用
     online: True
     fracs: {uniform: 1.0, priority: 0.0, recency: 0.0}
     prio: {exponent: 0.8, maxfrac: 0.5, initial: inf, zero_on_sample: True}
@@ -52,8 +52,8 @@ defaults:
     log_every: 120
     report_every: 300
     save_every: 900
-    envs: 96 # 原本是16
-    eval_envs: 4
+    envs: 240 # 原本是16
+    eval_envs: 8 # 原本是4，必须能被device_count整除
     eval_eps: 1
     report_batches: 1
     from_checkpoint: ''
@@ -72,8 +72,8 @@ defaults:
   jax:
     platform: tpu
     compute_dtype: bfloat16
-    policy_devices: [0]
-    train_devices: [0]
+    policy_devices: [0,1,2,3]
+    train_devices: [0,1,2,3]
     mock_devices: 0
     prealloc: True
     jit: True
